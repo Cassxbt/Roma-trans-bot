@@ -1,0 +1,9 @@
+huggingface:
+  default_model: meta-llama/Meta-Llama-3.1-8B-Instruct
+  alternative_models:
+    - mistralai/Mistral-7B-Instruct-v0.3
+    - meta-llama/Llama-3-8B-Instruct
+  temperature: 0.3
+  max_tokens: 2048
+  timeout: 60
+

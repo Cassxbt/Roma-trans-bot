@@ -1,0 +1,71 @@
+# ============================================
+# Discord Bot Configuration
+# ============================================
+discord:
+  enabled: true
+  prefix: "!"
+  commands:
+    - translate
+    - detect
+    - languages
+    - help
+    - stats
+  features:
+    auto_detect: true
+    translation_memory: true
+    quality_check: true
+    parallel_translation: true
+  rate_limiting:
+    enabled: true
+    max_requests_per_minute: 10
+    max_requests_per_user: 5
+  permissions:
+    admin_roles: []  # Add role IDs for admin commands (e.g., stats)
+    user_roles: []   # Add role IDs for user commands (empty = all users)
+  messages:
+    translating: "🔄 Translating..."
+    success: "✅ Translation complete!"
+    error: "❌ Translation failed: {error}"
+    rate_limit: "⏳ Please wait before sending another request."
+
+# ============================================
+# Telegram Bot Configuration
+# ============================================
+telegram:
+  enabled: true
+  commands:
+    - translate
+    - detect
+    - languages
+    - help
+    - stats
+    - start
+  features:
+    inline_mode: true
+    auto_detect: true
+    translation_memory: true
+    quality_check: true
+    parallel_translation: true
+  rate_limiting:
+    enabled: true
+    max_requests_per_minute: 10
+    max_requests_per_user: 5
+  permissions:
+    admin_users: []  # Add user IDs for admin commands
+    allowed_users: []  # Add user IDs (empty = all users)
+  messages:
+    welcome: "👋 Welcome to ROMA Translation Bot!\n\nUse /help to see available commands."
+    translating: "🔄 Translating..."
+    success: "✅ Translation complete!"
+    error: "❌ Translation failed: {error}"
+    rate_limit: "⏳ Please wait before sending another request."
+
+# ============================================
+# General Bot Settings
+# ============================================
+general:
+  max_text_length: 2000  # Maximum characters per translation
+  max_target_languages: 5  # Maximum languages per request
+  timeout: 30  # Request timeout in seconds
+  log_level: INFO
+  enable_analytics: true

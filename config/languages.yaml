@@ -1,0 +1,50 @@
+languages:
+  en:
+    name: English
+    code: en
+    native_name: English
+  es:
+    name: Spanish
+    code: es
+    native_name: Español
+  fr:
+    name: French
+    code: fr
+    native_name: Français
+  de:
+    name: German
+    code: de
+    native_name: Deutsch
+  it:
+    name: Italian
+    code: it
+    native_name: Italiano
+  pt:
+    name: Portuguese
+    code: pt
+    native_name: Português
+  ja:
+    name: Japanese
+    code: ja
+    native_name: 日本語
+  zh:
+    name: Chinese
+    code: zh
+    native_name: 中文
+  ko:
+    name: Korean
+    code: ko
+    native_name: 한국어
+  ru:
+    name: Russian
+    code: ru
+    native_name: Русский
+  ar:
+    name: Arabic
+    code: ar
+    native_name: العربية
+  hi:
+    name: Hindi
+    code: hi
+    native_name: हिन्दी
+

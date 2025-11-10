@@ -1,0 +1,29 @@
+roma:
+  atomizer:
+    enabled: true
+    strategy: "recursive"
+  
+  executor:
+    parallel_execution: true
+    max_concurrent: 5  # Increased for better parallel performance
+  
+  aggregator:
+    enabled: true
+    quality_threshold: 0.7
+
+translation:
+  max_text_length: 10000
+  max_target_languages: 10  # Increased to support more parallel translations
+  preserve_formatting: true
+  enable_quality_check: true
+  enable_translation_memory: true
+
+cache:
+  enabled: true
+  ttl: 86400
+  type: memory
+
+database:
+  type: sqlite
+  path: data/translations.db
+
