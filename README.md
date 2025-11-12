@@ -1,8 +1,8 @@
 <div align="center">
 
-# 🌐 ROMA Translation Bot
+#  ROMA Translation Bot
 
-### Enterprise-Grade Multi-Language Translation System
+### Vibecoding-Grade Multi-Language Translation System
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -18,13 +18,13 @@
 
 ---
 
-## 🎯 Overview
+##  Overview
 
 ROMA Translation Bot is a production-ready, multi-platform translation system that brings enterprise-grade translation capabilities to Discord and Telegram. Powered by the ROMA (Recursive-Open-Meta-Agent) framework, it intelligently orchestrates multiple translation providers with automatic fallback and parallel execution for optimal performance.
 
 ---
 
-## ✨ Features
+##  Features
 
 ### 🤖 Bot Platforms
 
@@ -76,7 +76,7 @@ ROMA Translation Bot is a production-ready, multi-platform translation system th
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### For Users (No Setup Required!)
 
@@ -117,7 +117,7 @@ python run_telegram_bot.py
 
 ---
 
-## 📖 Usage
+##  Usage
 
 ### Discord Bot Commands
 
@@ -151,7 +151,7 @@ python run_telegram_bot.py
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -182,7 +182,7 @@ python run_telegram_bot.py
 
 ---
 
-## 🌍 Supported Languages
+##  Supported Languages
 
 **Popular Languages:**
 - 🇪🇸 Spanish
@@ -196,11 +196,11 @@ python run_telegram_bot.py
 - 🇰🇷 Korean
 - 🇸🇦 Arabic
 
-**And 90+ more languages!**
+**And 40+ more languages!**
 
 ---
 
-## 🔧 Translation Providers
+##  Translation Providers
 
 ### DeepL (Primary)
 - **Quality**: ⭐⭐⭐⭐⭐ Best-in-class
@@ -222,17 +222,10 @@ python run_telegram_bot.py
 
 ---
 
-## 🚀 Deployment
-
-### Other Options
-
-- **Heroku**: $7/month per bot
-- **DigitalOcean**: $6/month (VPS)
-- **AWS/GCP**: Pay-as-you-go
 
 ---
 
-## 📊 Performance
+## Performance
 
 - **Response Time**: < 2 seconds for 3 languages
 - **Parallel Execution**: Up to 10 languages simultaneously
@@ -242,7 +235,7 @@ python run_telegram_bot.py
 
 ---
 
-## 🛠️ Development
+##  Development
 
 ### Project Structure
 
@@ -273,19 +266,16 @@ pytest tests/unit/test_translation.py
 pytest --cov=src tests/
 ```
 
-### Contributing
-
-We welcome contributions!
 
 ---
 
-## 📝 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Acknowledgments
+## Key Tools
 
 - **ROMA Framework** - Sentient AGI Lab
 - **DeepL** - Translation API
@@ -296,11 +286,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 📞 Support
+##  Support
 
 - **Issues**: [GitHub Issues](https://github.com/Cassxbt/Roma-trans-bot/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/Cassxbt/Roma-trans-bot/discussions)
-- **Email**: your.email@example.com
 
 ---
 
