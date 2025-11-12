@@ -9,6 +9,10 @@ import re
 import discord
 from discord.ext import commands
 from .bot_handlers import BotTranslationHandler
+from ..utils.logger import get_logger
+from ..utils.sentry_integration import init_sentry
+
+logger = get_logger("discord_bot")
 
 
 class TranslationDiscordBot:
@@ -17,14 +21,25 @@ class TranslationDiscordBot:
     def __init__(self):
         self.token = os.getenv("DISCORD_BOT_TOKEN")
         if not self.token:
+            logger.error("DISCORD_BOT_TOKEN not found in environment variables")
             raise ValueError("DISCORD_BOT_TOKEN not found in environment variables")
-        
+
+        logger.info("Initializing Discord bot")
+
+        # Initialize Sentry for error tracking
+        sentry_dsn = os.getenv("SENTRY_DISCORD_DSN")
+        if sentry_dsn:
+            init_sentry(dsn=sentry_dsn, service_name="discord")
+            logger.info("✅ Sentry error tracking initialized")
+        else:
+            logger.warning("⚠️  Sentry not configured. Error tracking disabled.")
+
         intents = discord.Intents.default()
         intents.message_content = True
-        
+
         self.bot = commands.Bot(command_prefix='!', intents=intents)
         self.handler = BotTranslationHandler()
-        
+
         self._setup_commands()
     
     def _parse_natural_language(self, text: str):

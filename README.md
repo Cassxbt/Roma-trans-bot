@@ -49,7 +49,7 @@ ROMA Translation Bot is a production-ready, multi-platform translation system th
 
 #### 📱 Telegram Bot
 - Intuitive command interface
-- Up to 10 simultaneous languages  
+- Up to 10 simultaneous languages
 - Professional formatting
 - Typing indicators
 - Language detection
@@ -94,7 +94,7 @@ ROMA Translation Bot is a production-ready, multi-platform translation system th
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/roma-translation-bot.git
+git clone https://github.com/Cassxbt/Roma-trans-bot.git
 cd roma-translation-bot
 
 # Create virtual environment
@@ -158,14 +158,14 @@ python run_telegram_bot.py
 │                    User Interface                        │
 │         Discord Bot  │  Telegram Bot  │  CLI             │
 └──────────────────────┬──────────────────────────────────┘
-                       │
+                        │
 ┌──────────────────────▼──────────────────────────────────┐
 │              Translation Agent (ROMA)                    │
 │  ┌────────────────────────────────────────────────┐     │
 │  │  Atomizer → Planner → Executor → Aggregator   │     │
 │  └────────────────────────────────────────────────┘     │
 └──────────────────────┬──────────────────────────────────┘
-                       │
+                        │
 ┌──────────────────────▼──────────────────────────────────┐
 │           Translation Providers (Fallback)               │
 │    DeepL  →  Azure Translator  →  LibreTranslate        │
@@ -224,24 +224,11 @@ python run_telegram_bot.py
 
 ## 🚀 Deployment
 
-### Railway.app (Recommended)
-
-1. **Fork this repository**
-2. **Sign up at [Railway.app](https://railway.app)**
-3. **Create new project from GitHub**
-4. **Add environment variables**
-5. **Deploy!**
-
-**Cost**: FREE tier available (500 hours/month)
-
 ### Other Options
 
 - **Heroku**: $7/month per bot
 - **DigitalOcean**: $6/month (VPS)
-- **Render.com**: FREE tier available
 - **AWS/GCP**: Pay-as-you-go
-
-See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
 
 ---
 
@@ -288,7 +275,7 @@ pytest --cov=src tests/
 
 ### Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+We welcome contributions!
 
 ---
 
@@ -311,15 +298,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/roma-translation-bot/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/roma-translation-bot/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Cassxbt/Roma-trans-bot/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Cassxbt/Roma-trans-bot/discussions)
 - **Email**: your.email@example.com
 
 ---
 
 <div align="center">
 
-**Made with ❤️ using ROMA Framework**
+**Made with ❤️ by Cassxbt [x.com/cassxbt](https://x.com/cassxbt) using Sentient's Roma Framework [https://github.com/sentient-agi](https://github.com/sentient-agi)**
 
 [⬆ Back to Top](#-roma-translation-bot)
 

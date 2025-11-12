@@ -5,13 +5,13 @@ import uvicorn
 import os
 
 if __name__ == "__main__":
-    port = int(os.getenv("API_PORT", 5000))
+    port = int(os.getenv("API_PORT", 8001))
     host = os.getenv("API_HOST", "0.0.0.0")
     
     uvicorn.run(
         "src.api.main:app",
         host=host,
         port=port,
-        reload=True
+        reload=False
     )
 

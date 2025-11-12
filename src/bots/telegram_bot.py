@@ -10,6 +10,7 @@ import asyncio
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from .bot_handlers import BotTranslationHandler
+from ..utils.sentry_integration import init_sentry
 
 
 class TranslationTelegramBot:
@@ -19,10 +20,18 @@ class TranslationTelegramBot:
         self.token = os.getenv("TELEGRAM_BOT_TOKEN")
         if not self.token:
             raise ValueError("TELEGRAM_BOT_TOKEN not found in environment variables")
-        
+
+        # Initialize Sentry for error tracking
+        sentry_dsn = os.getenv("SENTRY_TELEGRAM_DSN")
+        if sentry_dsn:
+            init_sentry(dsn=sentry_dsn, service_name="telegram")
+            print("✅ Sentry error tracking initialized")
+        else:
+            print("⚠️  Sentry not configured. Error tracking disabled.")
+
         self.handler = BotTranslationHandler()
         self.application = Application.builder().token(self.token).build()
-        
+
         self._setup_handlers()
     
     def _parse_natural_language(self, text: str):

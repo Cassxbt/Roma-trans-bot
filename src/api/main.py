@@ -8,7 +8,20 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import time
+import os
 from .routes import translation, health
+from ..utils.logger import get_logger
+from ..utils.sentry_integration import init_sentry
+
+logger = get_logger("api")
+
+# Initialize Sentry for error tracking
+sentry_dsn = os.getenv("SENTRY_API_DSN")
+if sentry_dsn:
+    init_sentry(dsn=sentry_dsn, service_name="api")
+    logger.info("✅ Sentry error tracking initialized")
+else:
+    logger.warning("⚠️  Sentry not configured. Error tracking disabled.")
 
 app = FastAPI(
     title="ROMA Translation Bot",
@@ -44,6 +57,7 @@ async def rate_limit_middleware(request: Request, call_next):
     if key in request_counts:
         request_counts[key] += 1
         if request_counts[key] > 20:
+            logger.warning(f"Rate limit exceeded for {client_ip}")
             return JSONResponse(
                 status_code=429,
                 content={

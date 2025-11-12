@@ -3,6 +3,8 @@ Translation Providers
 
 Multi-provider translation service with automatic fallback
 Supports: DeepL (primary), Azure Translator (fallback), LibreTranslate (emergency)
+
+With built-in retry logic and error recovery.
 """
 
 import os
@@ -10,6 +12,10 @@ import asyncio
 from abc import ABC, abstractmethod
 from typing import Optional, Dict, List
 import httpx
+from ..utils.logger import get_logger
+from ..utils.error_recovery import retry_async, get_circuit_breaker, RetryStrategy
+
+logger = get_logger("translation_providers")
 
 
 class TranslationProvider(ABC):
@@ -52,13 +58,28 @@ class DeepLProvider(TranslationProvider):
             self.enabled = True
             print("✅ DeepL provider initialized (500k chars/month FREE)")
     
+    
+    @retry_async(
+        max_retries=3,
+        strategy=RetryStrategy.EXPONENTIAL,
+        base_delay=1.0,
+        max_delay=10.0,
+        exceptions=(Exception,)
+    )
     async def translate(self, text: str, source_lang: str, target_lang: str) -> str:
-        """Translate using DeepL API"""
+        """
+        Translate using DeepL API with automatic retry
+        
+        Implements retry logic with exponential backoff for reliability.
+        """
         if not self.enabled:
+            logger.error("DeepL provider not enabled")
             raise Exception("DeepL provider not enabled")
         
         try:
             import deepl
+            
+            logger.debug(f"DeepL translating: {source_lang} → {target_lang}")
             
             translator = deepl.Translator(self.api_key)
             
@@ -81,9 +102,12 @@ class DeepLProvider(TranslationProvider):
             
             self.usage_count += 1
             self.monthly_usage += len(text)
+            logger.debug(f"DeepL translation successful: {target_lang}")
             return result.text
+            
         except Exception as e:
             self.error_count += 1
+            logger.error(f"DeepL translation failed: {str(e)}")
             raise Exception(f"DeepL translation failed: {str(e)}")
     
     def _normalize_source_lang(self, lang: str) -> str:
