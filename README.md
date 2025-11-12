@@ -7,8 +7,8 @@
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![ROMA Framework](https://img.shields.io/badge/ROMA-Framework-green.svg)](https://github.com/sentient-agi/ROMA)
-[![Discord](https://img.shields.io/badge/Discord-Bot-7289DA?logo=discord&logoColor=white)]()
-[![Telegram](https://img.shields.io/badge/Telegram-Bot-26A5E4?logo=telegram&logoColor=white)]()
+[![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/oauth2/authorize?client_id=1437098473915678822&permissions=379968&integration_type=0&scope=bot+applications.commands)
+[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/Transent_bot)
 
 **Intelligent translation bots for Discord and Telegram powered by ROMA framework**
 
@@ -306,7 +306,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Made with ❤️ by Cassxbt [x.com/cassxbt](https://x.com/cassxbt) using Sentient's Roma Framework [https://github.com/sentient-agi](https://github.com/sentient-agi)**
+**Made with ❤️ by [Cassxbt](https://x.com/cassxbt) using [Sentient's Roma Framework](https://github.com/sentient-agi)**
 
 [⬆ Back to Top](#-roma-translation-bot)
 
