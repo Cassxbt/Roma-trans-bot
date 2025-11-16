@@ -8,6 +8,7 @@ import Docs from "./pages/Docs";
 function Navbar() {
   const [theme, toggle] = useTheme();
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -23,14 +24,23 @@ function Navbar() {
   return (
     <header className="sticky top-0 z-50 backdrop-blur bg-darkBg/40 dark:bg-darkBg/40 text-darkText data-[theme=light]:bg-lightBg/80">
       <nav className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3">
-          <img src="/LOGO.PNG" alt="Transent Logo" className="w-10 h-10 rounded-lg object-cover" />
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold gradient-text">Transent</span>
-            <span className="text-sm text-gray-400">App</span>
+        <Link to="/" className="flex items-center gap-2 sm:gap-3">
+          <img src="/LOGO.PNG" alt="Transent Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-cover" />
+          <div className="flex items-baseline gap-1 sm:gap-2">
+            <span className="text-xl sm:text-2xl font-bold gradient-text">Transent</span>
+            <span className="hidden sm:inline text-sm text-gray-400">App</span>
           </div>
         </Link>
-        <div className="flex items-center gap-8">
+        
+        {/* Mobile menu button */}
+        <button className="md:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" onClick={() => setMenuOpen(!menuOpen)}>
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+          </svg>
+        </button>
+
+        {/* Desktop menu */}
+        <div className="hidden md:flex items-center gap-8">
           <Link to="/" className={getLinkClass("/")}>Home</Link>
           <Link to="/translate" className={getLinkClass("/translate")}>Translate</Link>
           <Link to="/features" className={getLinkClass("/features")}>Features</Link>
@@ -40,6 +50,22 @@ function Navbar() {
             <span className={theme === "dark" ? "" : "hidden"}>☀️</span>
           </button>
         </div>
+
+        {/* Mobile menu */}
+        {menuOpen && (
+          <div className="absolute top-16 left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 md:hidden">
+            <div className="flex flex-col gap-4 p-4">
+              <Link to="/" className={getLinkClass("/")} onClick={() => setMenuOpen(false)}>Home</Link>
+              <Link to="/translate" className={getLinkClass("/translate")} onClick={() => setMenuOpen(false)}>Translate</Link>
+              <Link to="/features" className={getLinkClass("/features")} onClick={() => setMenuOpen(false)}>Features</Link>
+              <Link to="/docs" className={getLinkClass("/docs")} onClick={() => setMenuOpen(false)}>Docs</Link>
+              <button aria-label="Toggle theme" className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors w-fit" onClick={toggle}>
+                <span className={theme === "light" ? "" : "hidden"}>🌙</span>
+                <span className={theme === "dark" ? "" : "hidden"}>☀️</span>
+              </button>
+            </div>
+          </div>
+        )}
       </nav>
     </header>
   );
