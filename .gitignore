@@ -80,3 +80,4 @@ asr_cache.json
 # ROMA framework (if cloned)
 ROMA/
 
+node_modules/
