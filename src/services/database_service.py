@@ -67,7 +67,7 @@ class DatabaseService:
             """)
             
             await db.commit()
-            print("✅ SQLite database initialized (FREE!)")
+            logger.info("✅ SQLite database initialized (FREE!)")
     
     async def save_translation(
         self,

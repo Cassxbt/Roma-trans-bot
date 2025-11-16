@@ -12,7 +12,7 @@
 
 **Intelligent translation bots for Discord and Telegram powered by ROMA framework**
 
-[Features](#-features) • [Quick Start](#-quick-start) • [Deployment](#-deployment) • [Documentation](#-documentation)
+[Features](#-features) • [Quick Start](#-quick-start) • [Usage](#-usage) • [Deployment](#-deployment) • [Documentation](#-documentation)
 
 </div>
 
@@ -22,54 +22,34 @@
 
 ROMA Translation Bot is a production-ready, multi-platform translation system that brings enterprise-grade translation capabilities to Discord and Telegram. Powered by the ROMA (Recursive-Open-Meta-Agent) framework, it intelligently orchestrates multiple translation providers with automatic fallback and parallel execution for optimal performance.
 
+Now featuring **real-time voice transcription and translation** using OpenAI's Whisper model.
+
 ---
 
 ##  Features
 
-### 🤖 Bot Platforms
+### 📱 Integration Platforms
 
-<table>
-<tr>
-<td width="50%">
-
-#### 💬 Discord Bot
-- Natural language commands
-- Up to 10 simultaneous languages
-- Clean output with flag emojis
-- Instant translations
-- No setup required for users
-
-**Example:**
-```
-!translate hello to Spanish French German
-```
-
-</td>
-<td width="50%">
-
-#### 📱 Telegram Bot
-- Intuitive command interface
-- Up to 10 simultaneous languages
-- Professional formatting
-- Typing indicators
-- Language detection
-
-**Example:**
-```
-/translate hello to Spanish French German
-```
-
-</td>
-</tr>
-</table>
+| Discord Bot | Telegram Bot | Web Interface |
+|---|---|---|
+| **💬 Text Translation** | **📱 Text Translation** | **🌐 Full Dashboard** |
+| Natural language commands | Intuitive command interface | Real-time translation |
+| Up to 10 simultaneous languages | Up to 10 simultaneous languages | Multi-language output |
+| Clean output with flag emojis | Professional formatting | Advanced analytics |
+| **🎙️ Auto Voice Detection** | **🎙️ Voice Support** | **📊 API Access** |
+| Auto-transcribe voice messages | Voice message processing | REST API endpoints |
+| Real-time voice-to-text conversion | Instant translations | WebSocket support |
+| Voice-to-translation pipeline | Multi-language output | Webhook integration |
 
 ### ⚡ Core Features
 
 - 🌍 **100+ Languages** - Comprehensive language support
 - 🚀 **ROMA Parallel Execution** - Translate to 10 languages simultaneously
+- 🎙️ **Voice-to-Translation Pipeline** - Real-time voice transcription and multi-language translation
+- 🗣️ **OpenAI Whisper Integration** - Cloud-based speech-to-text with HuggingFace Inference API
 - 🔄 **Multi-Provider Fallback** - DeepL → Azure Translator → LibreTranslate
 - 🧠 **Natural Language Parsing** - Intuitive commands like "translate hello to Spanish French German"
-- 💾 **Smart Caching** - Instant repeated translations
+- 💾 **Smart Caching** - Instant repeated translations & cached transcriptions
 - 📊 **Quality Assurance** - Automated translation quality checks
 - 🎨 **Format Preservation** - Maintains text formatting and special characters
 - 🔒 **Production Ready** - Comprehensive error handling and logging
@@ -81,12 +61,12 @@ ROMA Translation Bot is a production-ready, multi-platform translation system th
 ### For Users (No Setup Required!)
 
 **Discord:**
-1. Join the Discord server
+1. Add bot to your server using the button above
 2. Type: `!translate hello to Spanish French German`
 3. Get instant translations!
 
 **Telegram:**
-1. Search for the bot on Telegram
+1. Search for @Transent_bot on Telegram
 2. Type: `/start` to begin
 3. Type: `/translate hello to Spanish French German`
 
@@ -106,13 +86,16 @@ pip install -r requirements.txt
 
 # Configure environment variables
 cp .env.example .env
-# Edit .env with your API keys
+# Edit .env with your API keys (DeepL, Azure, HF_TOKEN)
 
 # Run Discord bot
 python run_discord_bot.py
 
 # Run Telegram bot (in another terminal)
 python run_telegram_bot.py
+
+# Run REST API (optional)
+python run_api.py
 ```
 
 ---
@@ -122,31 +105,101 @@ python run_telegram_bot.py
 ### Discord Bot Commands
 
 ```bash
-# Natural language
+# Natural language text translation
 !translate hello to Spanish French German
 !translate I love you to Korean Chinese Japanese
 
 # Classic format
 !translate hello --to es fr de
 
+# Detect language
+!detect bonjour
+
+# List languages
+!languages
+
+# Voice translation
+!voicetrans spanish french korean
+!setlangs es fr ko
+
 # Help
-!help
+!help-translate
+!voicehelp
 ```
 
 ### Telegram Bot Commands
 
 ```bash
-# Natural language
+# Natural language text translation
 /translate hello to Spanish French German
 /translate I love you to Korean Chinese Japanese
 
 # Classic format
 /translate hello --to es fr de
 
-# Other commands
-/start - Welcome message
-/help - Show all commands
-/detect <text> - Detect language
+# Detect language
+/detect bonjour
+
+# List languages
+/languages
+
+# Start
+/start
+/help
+```
+
+### Voice Translation Workflow
+
+**Step-by-step example:**
+
+1. **User sends voice message** (MP3, WAV, OGG, FLAC, etc.)
+   ```
+   Discord: Send a voice message in any channel
+   Telegram: Send audio file with /voicetrans command
+   ```
+
+2. **Whisper transcribes** to text (with intelligent caching)
+   ```
+   Processing: "🎙️ Transcribing your voice message..."
+   ```
+
+3. **ROMA translates** to all target languages in parallel
+   ```
+   Spanish: "Hola mundo"
+   French: "Bonjour le monde"
+   Korean: "안녕하세요 세계"
+   ```
+
+4. **Bot responds** with transcription + all translations
+   ```
+   ✅ Transcription: "Hello world"
+   🇪🇸 Spanish: "Hola mundo"
+   🇫🇷 French: "Bonjour le monde"
+   🇰🇷 Korean: "안녕하세요 세계"
+   ```
+
+### REST API Endpoints
+
+```bash
+# Transcribe audio file
+POST /api/v1/transcribe
+Content-Type: multipart/form-data
+Body: audio file
+
+# Full voice-to-translation pipeline
+POST /api/v1/voice-translate
+Content-Type: multipart/form-data
+Body: audio file, target_languages=es,fr,de
+
+# Text translation
+POST /api/v1/translate
+Content-Type: application/json
+Body: { "text": "hello", "target_languages": ["es", "fr", "de"] }
+
+# Language detection
+POST /api/v1/detect
+Content-Type: application/json
+Body: { "text": "hello" }
 ```
 
 ---
@@ -154,84 +207,114 @@ python run_telegram_bot.py
 ##  Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    User Interface                        │
-│         Discord Bot  │  Telegram Bot  │  CLI             │
-└──────────────────────┬──────────────────────────────────┘
-                        │
-┌──────────────────────▼──────────────────────────────────┐
-│              Translation Agent (ROMA)                    │
-│  ┌────────────────────────────────────────────────┐     │
-│  │  Atomizer → Planner → Executor → Aggregator   │     │
-│  └────────────────────────────────────────────────┘     │
-└──────────────────────┬──────────────────────────────────┘
-                        │
-┌──────────────────────▼──────────────────────────────────┐
-│           Translation Providers (Fallback)               │
-│    DeepL  →  Azure Translator  →  LibreTranslate        │
-└─────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│                   User Interface Layer                    │
+│      Discord Bot  │  Telegram Bot  │  REST API            │
+└──────────────────────────┬─────────────────────────────┘
+                           │
+                    ┌──────▼──────┐
+                    │  Voice Input │ (Audio Files)
+                    └──────┬──────┘
+                           │
+        ┌──────────────────┴──────────────────┐
+        │                                     │
+   ┌────▼─────┐                      ┌───────▼───────┐
+   │  Whisper  │ (Transcription)      │ Text Input    │
+   │   Cloud   │                      │               │
+   └────┬─────┘                       └───────┬───────┘
+        │                                     │
+        └──────────────────┬──────────────────┘
+                           │
+        ┌──────────────────▼──────────────────────────┐
+        │     Translation Agent (ROMA Framework)      │
+        │  Atomizer → Planner → Executor → Aggregator│
+        └──────────────────┬──────────────────────────┘
+                           │
+        ┌──────────────────▼──────────────────────────┐
+        │    Translation Providers (Parallel)         │
+        │   DeepL  →  Azure  →  LibreTranslate        │
+        │  (Smart Fallback & Retry Logic)             │
+        └──────────────────┬──────────────────────────┘
+                           │
+        ┌──────────────────▼──────────────────────────┐
+        │      Response Aggregation & Formatting      │
+        └──────────────────┬──────────────────────────┘
+                           │
+        ┌──────────────────▼──────────────────────────┐
+        │            Output Formatting                │
+        │  Emoji Flags │ Markdown │ Message Chunking  │
+        └──────────────────────────────────────────────┘
 ```
 
 ### Key Components
 
 - **ROMA Framework**: Intelligent task decomposition and parallel execution
+- **Whisper ASR Service**: Cloud-based speech-to-text with HuggingFace Inference API
 - **Translation Agent**: Orchestrates providers and manages fallback
-- **Bot Handlers**: Platform-specific command processing
-- **Natural Language Parser**: Understands intuitive commands
-- **Cache Layer**: SQLite + in-memory caching for performance
+- **Bot Handlers**: Platform-specific command processing (Discord, Telegram)
+- **Natural Language Parser**: Understands intuitive translation requests
+- **Cache Layer**: Multi-level caching (transcriptions + translations)
 
 ---
 
 ##  Supported Languages
 
 **Popular Languages:**
-- 🇪🇸 Spanish
-- 🇫🇷 French
-- 🇩🇪 German
-- 🇮🇹 Italian
-- 🇵🇹 Portuguese
-- 🇷🇺 Russian
-- 🇯🇵 Japanese
-- 🇨🇳 Chinese
-- 🇰🇷 Korean
-- 🇸🇦 Arabic
+🇪🇸 Spanish • 🇫🇷 French • 🇩🇪 German • 🇮🇹 Italian • 🇵🇹 Portuguese • 🇷🇺 Russian • 🇯🇵 Japanese • 🇨🇳 Chinese • 🇰🇷 Korean • 🇸🇦 Arabic
 
-**And 40+ more languages!**
+**And 40+ more languages including:**
+Dutch, Polish, English, Hindi, Turkish, Vietnamese, Swedish, Norwegian, Danish, Finnish, Greek, Czech, Slovak, Romanian, Bulgarian, Ukrainian, Indonesian, Thai, Filipino, and more!
 
 ---
 
 ##  Translation Providers
 
-### DeepL (Primary)
-- **Quality**: ⭐⭐⭐⭐⭐ Best-in-class
-- **Free Tier**: 500k characters/month
-- **Languages**: 30+ languages
-- **Speed**: Fast
-
-### Azure Translator (Fallback)
-- **Quality**: ⭐⭐⭐⭐ Excellent
-- **Free Tier**: 2M characters/month
-- **Languages**: 100+ languages
-- **Speed**: Very fast
-
-### LibreTranslate (Emergency)
-- **Quality**: ⭐⭐⭐ Good
-- **Free Tier**: Unlimited (public instance)
-- **Languages**: 30+ languages
-- **Speed**: Moderate
-
----
-
+| Provider | Quality | Free Tier | Languages | Speed |
+|---|---|---|---|---|
+| **DeepL** (Primary) | ⭐⭐⭐⭐⭐ Best-in-class | 500k chars/month | 30+ | Fast |
+| **Azure Translator** (Fallback) | ⭐⭐⭐⭐ Excellent | 2M chars/month | 100+ | Very Fast |
+| **LibreTranslate** (Emergency) | ⭐⭐⭐ Good | Unlimited | 30+ | Moderate |
 
 ---
 
 ## Performance
 
 - **Response Time**: < 2 seconds for 3 languages
+- **Voice Processing**: 5-15 seconds for transcription + translation (cached)
 - **Parallel Execution**: Up to 10 languages simultaneously
 - **Uptime**: 99.9% (with auto-restart)
 - **Cache Hit Rate**: ~40% (instant responses)
+- **Transcription Cache**: Prevents duplicate processing
 - **Error Rate**: < 0.1%
+
+---
+
+##  Security & Privacy
+
+### Environment Variables (Never Committed)
+All sensitive information is stored in `.env` file which is:
+- ✅ Listed in `.gitignore`
+- ✅ Never committed to repository
+- ✅ Configured via `.env.example` template
+- ✅ Protected with comprehensive security rules
+
+### Protected Secrets
+- API Keys (DeepL, Azure, HuggingFace)
+- Bot Tokens (Discord, Telegram)
+- Database credentials
+- Sentry DSN (error tracking)
+
+### Configuration
+```bash
+# Copy template (safe - contains no secrets)
+cp .env.example .env
+
+# Edit with YOUR keys only
+nano .env
+
+# Verify .gitignore protects it
+git status  # Should NOT show .env
+```
 
 ---
 
@@ -242,30 +325,35 @@ python run_telegram_bot.py
 ```
 roma-translation-bot/
 ├── src/
-│   ├── bots/           # Discord & Telegram bots
-│   ├── core/           # ROMA integration & translation agent
-│   ├── services/       # Translation providers
-│   ├── executors/      # ROMA executors
-│   └── utils/          # Utilities
-├── config/             # Configuration files
-├── docs/               # Documentation
-├── tests/              # Test suites
-└── scripts/            # Utility scripts
+│   ├── api/               # REST API with FastAPI
+│   │   └── routes/        # API endpoints (translate, voice)
+│   ├── bots/              # Discord & Telegram bots
+│   ├── core/              # ROMA integration & translation agent
+│   ├── services/          # Translation providers & Whisper ASR
+│   ├── executors/         # ROMA executors
+│   └── utils/             # Utilities & logging
+├── frontend/              # React web interface
+├── config/                # Configuration files (public)
+├── logs/                  # Application logs (git ignored)
+└── scripts/               # Utility scripts
 ```
 
-### Running Tests
+### Environment Setup
 
+**Required API Keys:**
 ```bash
-# Run all tests
-pytest
-
-# Run specific test
-pytest tests/unit/test_translation.py
-
-# Run with coverage
-pytest --cov=src tests/
+DEEPL_API_KEY=              # Get from https://www.deepl.com/pro-api
+AZURE_TRANSLATOR_KEY=       # Get from https://azure.microsoft.com/
+HF_TOKEN=                   # Get from https://huggingface.co/settings/tokens
+DISCORD_BOT_TOKEN=          # Get from Discord Developer Portal
+TELEGRAM_BOT_TOKEN=         # Get from BotFather on Telegram
 ```
 
+**Optional Monitoring:**
+```bash
+SENTRY_DISCORD_DSN=         # Error tracking (optional)
+SENTRY_TELEGRAM_DSN=        # Error tracking (optional)
+```
 
 ---
 
@@ -275,27 +363,29 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## Key Tools
+## Technology Stack
 
-- **ROMA Framework** - Sentient AGI Lab
-- **DeepL** - Translation API
-- **Azure Translator** - Microsoft
-- **LibreTranslate** - Open-source translation
-- **Discord.py** - Discord bot library
-- **python-telegram-bot** - Telegram bot library
+- **Framework**: ROMA (Recursive-Open-Meta-Agent)
+- **Voice**: OpenAI Whisper (via HuggingFace)
+- **Translation APIs**: DeepL, Azure Translator, LibreTranslate
+- **Bot Libraries**: Discord.py, python-telegram-bot
+- **Web Framework**: FastAPI
+- **Frontend**: React + TypeScript
+- **Language**: Python 3.12+
 
 ---
 
-##  Support
+##  Support & Community
 
-- **Issues**: [GitHub Issues](https://github.com/Cassxbt/Roma-trans-bot/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Cassxbt/Roma-trans-bot/discussions)
+- **GitHub Issues**: [Report Bugs](https://github.com/Cassxbt/Roma-trans-bot/issues)
+- **GitHub Discussions**: [Ask Questions](https://github.com/Cassxbt/Roma-trans-bot/discussions)
+- **Discord**: [Join Server](https://discord.com/oauth2/authorize?client_id=1437098473915678822&permissions=379968&integration_type=0&scope=bot+applications.commands)
 
 ---
 
 <div align="center">
 
-**Made with ❤️ by [Cassxbt](https://x.com/cassxbt) using [Sentient's Roma Framework](https://github.com/sentient-agi)**
+**Made with ❤️ by [Cassxbt](https://x.com/cassxbt) using [Sentient's ROMA Framework](https://github.com/sentient-agi/ROMA)**
 
 [⬆ Back to Top](#-roma-translation-bot)
 

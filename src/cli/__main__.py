@@ -10,10 +10,10 @@ env_path = project_root / '.env'
 
 if env_path.exists():
     load_dotenv(env_path)
-    print(f"✅ Loaded environment from {env_path}")
+    logger.info(f"✅ Loaded environment from {env_path}")
 else:
-    print(f"⚠️  .env file not found at {env_path}")
-    print("   Please create .env file with HUGGINGFACE_API_KEY")
+    logger.warning(f"⚠️  .env file not found at {env_path}")
+    logger.info("   Please create .env file with HUGGINGFACE_API_KEY")
 
 from .commands import cli
 

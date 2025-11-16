@@ -32,7 +32,7 @@ class LanguageDetectionExecutor(BaseExecutor):
             return detected
         except Exception as e:
             # Fallback to English if detection fails
-            print(f"⚠️  Language detection failed: {e}, defaulting to 'en'")
+            logger.warning(f"⚠️  Language detection failed: {e}, defaulting to 'en'")
             return "en"
     
     async def detect_multiple(self, text: str) -> list:

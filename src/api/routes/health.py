@@ -28,16 +28,21 @@ async def health_check():
     try:
         bot = get_bot()
         stats = bot.get_stats()
-        
+
+        # Get provider info from translation service
+        provider_name = "Multi-Provider"
+        if hasattr(bot, 'translation_service') and bot.translation_service.enabled_providers:
+            provider_name = bot.translation_service.enabled_providers[0].name
+
         return HealthResponse(
             status="healthy",
-            provider=bot.llm.provider,
-            model=bot.llm.model,
+            provider=provider_name,
+            model="ROMA Framework",
             cost="$0 - FREE forever!",
             limits={
                 "max_text_length": 10000,
-                "max_languages": 5,
-                "rate_limit": "1000 req/day (Hugging Face free tier)"
+                "max_languages": 10,
+                "providers": len(bot.translation_service.enabled_providers) if hasattr(bot, 'translation_service') else 0
             }
         )
     except Exception as e:

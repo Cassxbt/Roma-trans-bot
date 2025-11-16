@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import time
 import os
-from .routes import translation, health
+from .routes import translation, health, voice
 from ..utils.logger import get_logger
 from ..utils.sentry_integration import init_sentry
 
@@ -41,6 +41,7 @@ app.add_middleware(
 # Include routers
 app.include_router(translation.router)
 app.include_router(health.router)
+app.include_router(voice.router)
 
 # Simple rate limiting for free tier
 request_counts = {}
@@ -92,6 +93,8 @@ async def root():
         "endpoints": {
             "translate": "POST /api/v1/translate",
             "detect": "POST /api/v1/detect",
+            "transcribe": "POST /api/v1/transcribe",
+            "voice_translate": "POST /api/v1/voice-translate",
             "languages": "GET /api/v1/languages",
             "health": "GET /api/v1/health"
         },

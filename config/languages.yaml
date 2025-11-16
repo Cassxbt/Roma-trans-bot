@@ -47,4 +47,12 @@ languages:
     name: Hindi
     code: hi
     native_name: हिन्दी
+  vi:
+    name: Vietnamese
+    code: vi
+    native_name: Tiếng Việt
+  tr:
+    name: Turkish
+    code: tr
+    native_name: Türkçe
 

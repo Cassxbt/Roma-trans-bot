@@ -17,6 +17,9 @@ from ..executors.language_detection import LanguageDetectionExecutor
 from ..executors.translation import TranslationExecutor
 from ..executors.quality_check import QualityCheckExecutor
 from ..executors.format_preservation import FormatPreservationExecutor
+from ..utils.logger import get_logger
+
+logger = get_logger("translation_agent")
 
 
 class TranslationBot:
@@ -100,11 +103,11 @@ class TranslationBot:
             
             # Log ROMA execution mode
             if execution_mode == "parallel_roma":
-                print(f"✨ ROMA parallel execution: {roma_result.get('successful_count')}/{len(target_languages)} translations")
+                logger.info(f"✨ ROMA parallel execution: {roma_result.get('successful_count')}/{len(target_languages)} translations")
         
         except Exception as e:
             # Fallback to direct translation if ROMA fails
-            print(f"⚠️  ROMA failed, using direct translation: {e}")
+            logger.warning(f"⚠️  ROMA failed, using direct translation: {e}")
             translations = await self._direct_translate(
                 text, source_language, target_languages
             )

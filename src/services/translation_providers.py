@@ -52,11 +52,11 @@ class DeepLProvider(TranslationProvider):
         self.monthly_usage = 0
         
         if not self.api_key:
-            print("⚠️  DeepL API key not found")
+            logger.warning("⚠️  DeepL API key not found")
             self.enabled = False
         else:
             self.enabled = True
-            print("✅ DeepL provider initialized (500k chars/month FREE)")
+            logger.info("✅ DeepL provider initialized (500k chars/month FREE)")
     
     
     @retry_async(
@@ -143,7 +143,7 @@ class DeepLProvider(TranslationProvider):
         return self.monthly_usage < self.monthly_limit
     
     def get_supported_languages(self) -> List[str]:
-        return ['en', 'de', 'fr', 'es', 'pt', 'it', 'nl', 'pl', 'ru', 'ja', 'zh']
+        return ['en', 'de', 'fr', 'es', 'pt', 'it', 'nl', 'pl', 'ru', 'ja', 'zh', 'ko', 'tr']
 
 
 class AzureTranslatorProvider(TranslationProvider):
@@ -158,11 +158,11 @@ class AzureTranslatorProvider(TranslationProvider):
         self.monthly_usage = 0
         
         if not self.api_key:
-            print("⚠️  Azure Translator API key not found")
+            logger.warning("⚠️  Azure Translator API key not found")
             self.enabled = False
         else:
             self.enabled = True
-            print("✅ Azure Translator initialized (2M chars/month FREE)")
+            logger.info("✅ Azure Translator initialized (2M chars/month FREE)")
     
     async def translate(self, text: str, source_lang: str, target_lang: str) -> str:
         if not self.enabled:
@@ -222,7 +222,7 @@ class AzureTranslatorProvider(TranslationProvider):
         return self.monthly_usage < self.monthly_limit
     
     def get_supported_languages(self) -> List[str]:
-        return ['en', 'es', 'fr', 'de', 'it', 'pt', 'ru', 'ja', 'zh', 'ko', 'ar', 'hi']
+        return ['en', 'es', 'fr', 'de', 'it', 'pt', 'ru', 'ja', 'zh', 'ko', 'ar', 'hi', 'vi', 'tr']
 
 
 class LibreTranslateProvider(TranslationProvider):
@@ -233,7 +233,7 @@ class LibreTranslateProvider(TranslationProvider):
         self.endpoint = os.getenv("LIBRETRANSLATE_ENDPOINT", "https://libretranslate.com")
         self.api_key = os.getenv("LIBRETRANSLATE_API_KEY", None)
         self.enabled = True
-        print(f"✅ LibreTranslate initialized (FREE)")
+        logger.info(f"✅ LibreTranslate initialized (FREE)")
     
     async def translate(self, text: str, source_lang: str, target_lang: str) -> str:
         try:
@@ -271,7 +271,7 @@ class LibreTranslateProvider(TranslationProvider):
         return True
     
     def get_supported_languages(self) -> List[str]:
-        return ['en', 'es', 'fr', 'de', 'it', 'pt', 'ru', 'ja', 'zh', 'ko']
+        return ['en', 'es', 'fr', 'de', 'it', 'pt', 'ru', 'ja', 'zh', 'ko', 'ar', 'hi', 'vi', 'tr']
 
 
 class MultiProviderTranslationService:
@@ -282,12 +282,11 @@ class MultiProviderTranslationService:
         self.enabled_providers = [p for p in self.providers if p.has_quota()]
         
         if not self.enabled_providers:
-            print("⚠️  No translation providers enabled!")
+            logger.warning("⚠️  No translation providers enabled!")
         else:
-            print(f"\n🌍 Translation Service Ready:")
+            logger.info("🌍 Translation Service Ready:")
             for i, provider in enumerate(self.enabled_providers, 1):
-                print(f"   {i}. {provider.name}")
-            print()
+                logger.info(f"   {i}. {provider.name}")
     
     async def translate(self, text: str, source_lang: str, target_lang: str) -> Dict[str, any]:
         """Translate text with automatic provider fallback"""
@@ -295,7 +294,7 @@ class MultiProviderTranslationService:
         
         for provider in self.enabled_providers:
             if not provider.has_quota():
-                print(f"⚠️  {provider.name} quota exceeded, trying next provider...")
+                logger.warning(f"⚠️  {provider.name} quota exceeded, trying next provider...")
                 continue
             
             try:
@@ -309,8 +308,8 @@ class MultiProviderTranslationService:
                 }
             except Exception as e:
                 last_error = e
-                print(f"⚠️  {provider.name} failed: {str(e)}")
-                print(f"   Trying next provider...")
+                logger.warning(f"⚠️  {provider.name} failed: {str(e)}")
+                logger.info("Trying next provider...")
                 continue
         
         raise Exception(f"All translation providers failed. Last error: {last_error}")

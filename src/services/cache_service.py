@@ -9,6 +9,9 @@ import hashlib
 import time
 import os
 from ..core.config_loader import get_config_loader
+from ..utils.logger import get_logger
+
+logger = get_logger("cache_service")
 
 
 class SimpleCacheService:
@@ -23,7 +26,7 @@ class SimpleCacheService:
         self.enabled = os.getenv("CACHE_ENABLED", "true").lower() == "true"
         
         if self.enabled:
-            print("✅ Using in-memory cache (FREE!)")
+            logger.info("✅ Using in-memory cache (FREE!)")
     
     def _make_key(
         self,
@@ -88,12 +91,12 @@ class SimpleCacheService:
             del self.cache[key]
         
         if expired_keys:
-            print(f"🧹 Cleared {len(expired_keys)} expired cache entries")
+            logger.info(f"🧹 Cleared {len(expired_keys)} expired cache entries")
     
     def clear_all(self):
         """Clear all cache entries"""
         self.cache.clear()
-        print("🧹 Cleared all cache entries")
+        logger.info("🧹 Cleared all cache entries")
     
     def get_stats(self) -> dict:
         """Get cache statistics"""

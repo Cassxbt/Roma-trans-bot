@@ -39,7 +39,12 @@ ENV/
 .env.local
 .env.production
 .env.development
+.env.*.local
 .envsource
+*.pem
+*.key
+*.cert
+secrets/
 
 # Database
 *.db
@@ -68,6 +73,9 @@ htmlcov/
 # Uploads
 data/uploads/*
 !data/uploads/.gitkeep
+
+# Voice cache
+asr_cache.json
 
 # ROMA framework (if cloned)
 ROMA/

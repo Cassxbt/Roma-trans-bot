@@ -51,7 +51,8 @@ def main():
     
     try:
         logger.info("Starting Telegram bot polling...")
-        _bot.application.run_polling(allowed_updates=None)
+        from telegram import Update
+        _bot.application.run_polling(allowed_updates=Update.ALL_TYPES)
     except Exception as e:
         logger.error(f"Fatal error in Telegram bot: {e}", exc_info=True)
         raise
