@@ -6,7 +6,8 @@ Main FastAPI application with all routes
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 import time
 import os
 from .routes import translation, health, voice
@@ -42,6 +43,17 @@ app.add_middleware(
 app.include_router(translation.router)
 app.include_router(health.router)
 app.include_router(voice.router)
+
+# Serve frontend static files
+frontend_dist = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "frontend", "dist")
+if os.path.exists(frontend_dist):
+    # Mount assets directory
+    assets_path = os.path.join(frontend_dist, "assets")
+    if os.path.exists(assets_path):
+        app.mount("/assets", StaticFiles(directory=assets_path), name="assets")
+    logger.info(f"✅ Frontend static files mounted from {frontend_dist}")
+else:
+    logger.warning(f"⚠️  Frontend dist not found at {frontend_dist}")
 
 # Simple rate limiting for free tier
 request_counts = {}
@@ -84,7 +96,12 @@ async def rate_limit_middleware(request: Request, call_next):
 
 @app.get("/")
 async def root():
-    """API info"""
+    """Serve index.html for SPA or API info if frontend not built"""
+    index_path = os.path.join(frontend_dist, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path, media_type="text/html")
+    
+    # Fallback API info if frontend not available
     return {
         "name": "ROMA Translation Bot",
         "version": "1.0.0",
@@ -106,6 +123,20 @@ async def root():
             "framework": "ROMA (Recursive-Open-Meta-Agent)"
         }
     }
+
+
+@app.get("/{full_path:path}")
+async def serve_spa(full_path: str):
+    """Serve SPA routes - fallback to index.html for non-API routes"""
+    # Don't intercept API routes
+    if full_path.startswith("api/"):
+        return {"error": "Not found"}
+    
+    index_path = os.path.join(frontend_dist, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path, media_type="text/html")
+    
+    return {"error": "Frontend not built"}
 
 
 if __name__ == "__main__":

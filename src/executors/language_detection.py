@@ -7,6 +7,9 @@ Detects the language of input text
 import langdetect
 from typing import Optional
 from .base import BaseExecutor
+from ..utils.logger import get_logger
+
+logger = get_logger("language_detection")
 
 
 class LanguageDetectionExecutor(BaseExecutor):

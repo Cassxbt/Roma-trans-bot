@@ -4,7 +4,7 @@ Request Models
 Pydantic models for API requests
 """
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from typing import List, Optional
 
 
@@ -15,6 +15,17 @@ class TranslationRequest(BaseModel):
         max_length=10000,
         description="Text to translate"
     )
+    
+    @field_validator('text')
+    @classmethod
+    def validate_text(cls, v):
+        """Validate text contains at least some actual content"""
+        if not v or not v.strip():
+            raise ValueError("Text cannot be empty")
+        # Check if text has at least one letter/character that's not just numbers/punctuation
+        if not any(c.isalpha() for c in v):
+            raise ValueError("Text must contain at least one letter or meaningful content")
+        return v
     target_languages: List[str] = Field(
         ...,
         min_items=1,
